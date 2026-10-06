@@ -122,3 +122,7 @@ ELMS
 The Employee Leave Management System was updated as part of the Git version control activity.
 
 This update demonstrates a change made in a cloned repository for Git version control practice.
+
+## Bug Fix Update
+
+Fixed documentation details as part of the bugfix branch activity.
