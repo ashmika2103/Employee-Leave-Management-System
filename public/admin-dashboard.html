@@ -1,0 +1,2900 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Administrator Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 20px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c;
+        }
+
+        .container {
+            width: 94%;
+            max-width: 1500px;
+            margin: 25px auto;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .section h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            background: #f8fafc;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 15px;
+            color: #555;
+        }
+
+        .card p {
+            margin: 10px 0 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .primary-btn {
+            background: #6d3fc0;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: #5932a3;
+        }
+
+        .secondary-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .secondary-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .success-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .success-btn:hover {
+            background: #15803d;
+        }
+
+        .danger-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .danger-btn:hover {
+            background: #b91c1c;
+        }
+
+        .cancel-btn {
+            background: #64748b;
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            background: #475569;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background: #1f2937;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 11px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .status-active {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .status-inactive {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .report-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .report-card {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .report-summary {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .summary-box {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            padding: 18px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .summary-box h4 {
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .summary-box p {
+            margin: 8px 0 0;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .message {
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .report-downloads {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .report-downloads h3 {
+            width: 100%;
+            margin: 0 0 5px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 900px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .report-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-grid,
+            .report-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .report-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="header">
+
+        <div>
+            <h1>Administrator Dashboard</h1>
+
+            <p id="adminInfo">
+                Welcome, Administrator
+            </p>
+        </div>
+
+        <button
+            class="logout-btn"
+            onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- ==================================================
+             EMPLOYEE SUMMARY
+        ================================================== -->
+
+        <div class="section">
+
+            <h2>Employee Summary</h2>
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <h3>Total Employees</h3>
+
+                    <p id="totalEmployees">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>Active Employees</h3>
+
+                    <p id="activeEmployees">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>Inactive Employees</h3>
+
+                    <p id="inactiveEmployees">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>Managers</h3>
+
+                    <p id="totalManagers">
+                        0
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             ADD / EDIT EMPLOYEE
+        ================================================== -->
+
+        <div class="section">
+
+            <h2 id="employeeFormTitle">
+                Add Employee
+            </h2>
+
+            <form id="employeeForm">
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Employee ID
+                        </label>
+
+                        <input
+                            type="text"
+                            id="employeeId"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="employeeName"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="employeeEmail"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="employeePassword"
+                            placeholder="Required for new employee">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Department
+                        </label>
+
+                        <input
+                            type="text"
+                            id="employeeDepartment"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Role
+                        </label>
+
+                        <select
+                            id="employeeRole">
+
+                            <option value="Employee">
+                                Employee
+                            </option>
+
+                            <option value="Manager">
+                                Manager
+                            </option>
+
+                            <option value="Administrator">
+                                Administrator
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Manager ID
+                        </label>
+
+                        <input
+                            type="text"
+                            id="employeeManagerId"
+                            placeholder="Optional">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Account Status
+                        </label>
+
+                        <select
+                            id="employeeActive">
+
+                            <option value="true">
+                                Active
+                            </option>
+
+                            <option value="false">
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="button-row">
+
+                    <button
+                        type="submit"
+                        class="primary-btn">
+
+                        Save Employee
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        id="cancelEditBtn"
+                        onclick="cancelEdit()"
+                        style="display:none;">
+
+                        Cancel Edit
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <div
+                id="employeeMessage"
+                class="message">
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             EMPLOYEE MANAGEMENT
+        ================================================== -->
+
+        <div class="section">
+
+            <h2>Employee Management</h2>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Employee ID
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Role
+                            </th>
+
+                            <th>
+                                Manager ID
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="employeeTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="8"
+                                class="empty-message">
+
+                                Loading employees...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             MONTHLY REPORT
+        ================================================== -->
+
+        <div class="section">
+
+            <h2>
+                Monthly Leave Report
+            </h2>
+
+            <div class="report-controls">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Month
+                    </label>
+
+                    <select id="reportMonth">
+
+                        <option value="1">
+                            January
+                        </option>
+
+                        <option value="2">
+                            February
+                        </option>
+
+                        <option value="3">
+                            March
+                        </option>
+
+                        <option value="4">
+                            April
+                        </option>
+
+                        <option value="5">
+                            May
+                        </option>
+
+                        <option value="6">
+                            June
+                        </option>
+
+                        <option value="7">
+                            July
+                        </option>
+
+                        <option value="8">
+                            August
+                        </option>
+
+                        <option value="9">
+                            September
+                        </option>
+
+                        <option value="10" selected>
+                            October
+                        </option>
+
+                        <option value="11">
+                            November
+                        </option>
+
+                        <option value="12">
+                            December
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Year
+                    </label>
+
+                    <input
+                        type="number"
+                        id="reportYear"
+                        value="2026"
+                        min="2000"
+                        max="2100">
+
+                </div>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    class="primary-btn"
+                    onclick="generateMonthlyReport()">
+
+                    Generate Monthly Report
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="monthlyMessage"
+                class="message">
+            </div>
+
+
+            <div
+                id="monthlyReportArea"
+                class="report-card"
+                style="display:none;">
+
+                <h3>
+                    Monthly Report Summary
+                </h3>
+
+
+                <div class="report-summary">
+
+                    <div class="summary-box">
+
+                        <h4>
+                            Total Requests
+                        </h4>
+
+                        <p id="monthlyTotalRequests">
+                            0
+                        </p>
+
+                    </div>
+
+
+                    <div class="summary-box">
+
+                        <h4>
+                            Approved
+                        </h4>
+
+                        <p id="monthlyApproved">
+                            0
+                        </p>
+
+                    </div>
+
+
+                    <div class="summary-box">
+
+                        <h4>
+                            Rejected
+                        </h4>
+
+                        <p id="monthlyRejected">
+                            0
+                        </p>
+
+                    </div>
+
+
+                    <div class="summary-box">
+
+                        <h4>
+                            Pending
+                        </h4>
+
+                        <p id="monthlyPending">
+                            0
+                        </p>
+
+                    </div>
+
+
+                    <div class="summary-box">
+
+                        <h4>
+                            Total Leave Days
+                        </h4>
+
+                        <p id="monthlyTotalDays">
+                            0
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="report-downloads">
+
+                    <h3>
+                        Download Monthly Report
+                    </h3>
+
+                    <button
+                        class="danger-btn"
+                        onclick="downloadMonthlyPDF()">
+
+                        Download PDF
+
+                    </button>
+
+
+                    <button
+                        class="success-btn"
+                        onclick="downloadMonthlyExcel()">
+
+                        Download Excel
+
+                    </button>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Employee ID
+                                </th>
+
+                                <th>
+                                    Employee Name
+                                </th>
+
+                                <th>
+                                    Leave Type
+                                </th>
+
+                                <th>
+                                    From Date
+                                </th>
+
+                                <th>
+                                    To Date
+                                </th>
+
+                                <th>
+                                    Leave Days
+                                </th>
+
+                                <th>
+                                    Reason
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody
+                            id="monthlyReportTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             DEPARTMENT REPORT
+        ================================================== -->
+
+        <div class="section">
+
+            <h2>
+                Department-wise Leave Report
+            </h2>
+
+
+            <div class="form-group">
+
+                <label>
+                    Department
+                </label>
+
+                <select
+                    id="reportDepartment">
+
+                    <option value="">
+                        Select Department
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    class="primary-btn"
+                    onclick="generateDepartmentReport()">
+
+                    Generate Department Report
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="departmentMessage"
+                class="message">
+            </div>
+
+
+            <div
+                id="departmentReportArea"
+                class="report-card"
+                style="display:none;">
+
+                <h3 id="departmentReportTitle">
+                    Department Report
+                </h3>
+
+
+                <div class="report-summary">
+
+                    <div class="summary-box">
+
+                        <h4>
+                            Total Employees
+                        </h4>
+
+                        <p id="departmentTotalEmployees">
+                            0
+                        </p>
+
+                    </div>
+
+
+                    <div class="summary-box">
+
+                        <h4>
+                            Total Requests
+                        </h4>
+
+                        <p id="departmentTotalRequests">
+                            0
+                        </p>
+
+                    </div>
+
+
+                    <div class="summary-box">
+
+                        <h4>
+                            Approved
+                        </h4>
+
+                        <p id="departmentApproved">
+                            0
+                        </p>
+
+                    </div>
+
+
+                    <div class="summary-box">
+
+                        <h4>
+                            Rejected
+                        </h4>
+
+                        <p id="departmentRejected">
+                            0
+                        </p>
+
+                    </div>
+
+
+                    <div class="summary-box">
+
+                        <h4>
+                            Pending
+                        </h4>
+
+                        <p id="departmentPending">
+                            0
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="summary-box"
+                    style="margin-top:15px;">
+
+                    <h4>
+                        Total Leave Days
+                    </h4>
+
+                    <p id="departmentTotalDays">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="report-downloads">
+
+                    <h3>
+                        Download Department Report
+                    </h3>
+
+                    <button
+                        class="danger-btn"
+                        onclick="downloadDepartmentPDF()">
+
+                        Download PDF
+
+                    </button>
+
+
+                    <button
+                        class="success-btn"
+                        onclick="downloadDepartmentExcel()">
+
+                        Download Excel
+
+                    </button>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Employee ID
+                                </th>
+
+                                <th>
+                                    Employee Name
+                                </th>
+
+                                <th>
+                                    Leave Type
+                                </th>
+
+                                <th>
+                                    From Date
+                                </th>
+
+                                <th>
+                                    To Date
+                                </th>
+
+                                <th>
+                                    Leave Days
+                                </th>
+
+                                <th>
+                                    Reason
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody
+                            id="departmentReportTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+<script>
+
+
+/* ==========================================================
+   GLOBAL VARIABLES
+========================================================== */
+
+let employees = [];
+
+let editingEmployeeId = null;
+
+
+/* ==========================================================
+   GET TOKEN
+========================================================== */
+
+function getToken() {
+
+    return localStorage.getItem("token");
+
+}
+
+
+/* ==========================================================
+   GET CURRENT USER
+========================================================== */
+
+function getCurrentUser() {
+
+    try {
+
+        const user =
+            JSON.parse(
+                localStorage.getItem(
+                    "currentUser"
+                )
+            );
+
+        return user;
+
+    } catch (error) {
+
+        return null;
+
+    }
+
+}
+
+
+/* ==========================================================
+   ADMIN ACCESS CHECK
+========================================================== */
+
+function checkAdminAccess() {
+
+    const token =
+        getToken();
+
+    const user =
+        getCurrentUser();
+
+
+    if (
+        !token ||
+        !user ||
+        user.role !== "Administrator"
+    ) {
+
+        window.location.href =
+            "index.html";
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+
+/* ==========================================================
+   PAGE INITIALIZATION
+========================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        if (!checkAdminAccess()) {
+            return;
+        }
+
+        const user =
+            getCurrentUser();
+
+        document.getElementById(
+            "adminInfo"
+        ).textContent =
+            `Welcome, ${user.name || "Administrator"}`;
+
+        loadEmployees();
+
+    }
+);
+
+
+/* ==========================================================
+   LOAD EMPLOYEES
+========================================================== */
+
+async function loadEmployees() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/admin/employees",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${getToken()}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to load employees"
+            );
+
+        }
+
+
+        employees =
+            data.employees || [];
+
+
+        displayEmployees();
+
+        updateEmployeeSummary();
+
+        loadDepartments();
+
+    } catch (error) {
+
+        console.error(
+            "Load employees error:",
+            error
+        );
+
+        showMessage(
+            "employeeMessage",
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+/* ==========================================================
+   DISPLAY EMPLOYEES
+========================================================== */
+
+function displayEmployees() {
+
+    const tableBody =
+        document.getElementById(
+            "employeeTableBody"
+        );
+
+
+    if (!employees.length) {
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="8"
+                    class="empty-message">
+                    No employees found.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    tableBody.innerHTML =
+        employees.map(
+            (employee) => {
+
+                const statusClass =
+                    employee.isActive
+                        ? "status-active"
+                        : "status-inactive";
+
+                const statusText =
+                    employee.isActive
+                        ? "Active"
+                        : "Inactive";
+
+
+                return `
+                    <tr>
+
+                        <td>
+                            ${escapeHtml(
+                                employee.employeeId
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                employee.name
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                employee.email
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                employee.department
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                employee.role
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                employee.managerId || "-"
+                            )}
+                        </td>
+
+                        <td class="${statusClass}">
+                            ${statusText}
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="secondary-btn"
+                                onclick="editEmployee(
+                                    '${escapeJs(
+                                        employee.employeeId
+                                    )}'
+                                )">
+
+                                Edit
+
+                            </button>
+
+
+                            <button
+                                class="danger-btn"
+                                onclick="deleteEmployee(
+                                    '${escapeJs(
+                                        employee.employeeId
+                                    )}'
+                                )">
+
+                                Delete
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* ==========================================================
+   UPDATE EMPLOYEE SUMMARY
+========================================================== */
+
+function updateEmployeeSummary() {
+
+    const total =
+        employees.length;
+
+    const active =
+        employees.filter(
+            employee =>
+                employee.isActive
+        ).length;
+
+    const inactive =
+        employees.filter(
+            employee =>
+                !employee.isActive
+        ).length;
+
+    const managers =
+        employees.filter(
+            employee =>
+                employee.role ===
+                "Manager"
+        ).length;
+
+
+    document.getElementById(
+        "totalEmployees"
+    ).textContent =
+        total;
+
+
+    document.getElementById(
+        "activeEmployees"
+    ).textContent =
+        active;
+
+
+    document.getElementById(
+        "inactiveEmployees"
+    ).textContent =
+        inactive;
+
+
+    document.getElementById(
+        "totalManagers"
+    ).textContent =
+        managers;
+
+}
+
+
+/* ==========================================================
+   LOAD DEPARTMENTS
+========================================================== */
+
+function loadDepartments() {
+
+    const select =
+        document.getElementById(
+            "reportDepartment"
+        );
+
+
+    const departments =
+        [
+            ...new Set(
+                employees
+                    .map(
+                        employee =>
+                            employee.department
+                    )
+                    .filter(Boolean)
+            )
+        ]
+        .sort();
+
+
+    select.innerHTML = `
+        <option value="">
+            Select Department
+        </option>
+    `;
+
+
+    departments.forEach(
+        department => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                department;
+
+            option.textContent =
+                department;
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================================
+   ADD / EDIT EMPLOYEE
+========================================================== */
+
+document.getElementById(
+    "employeeForm"
+).addEventListener(
+    "submit",
+    async function (event) {
+
+        event.preventDefault();
+
+
+        const employeeId =
+            document.getElementById(
+                "employeeId"
+            ).value.trim();
+
+        const name =
+            document.getElementById(
+                "employeeName"
+            ).value.trim();
+
+        const email =
+            document.getElementById(
+                "employeeEmail"
+            ).value.trim();
+
+        const password =
+            document.getElementById(
+                "employeePassword"
+            ).value;
+
+        const department =
+            document.getElementById(
+                "employeeDepartment"
+            ).value.trim();
+
+        const role =
+            document.getElementById(
+                "employeeRole"
+            ).value;
+
+        const managerId =
+            document.getElementById(
+                "employeeManagerId"
+            ).value.trim();
+
+        const isActive =
+            document.getElementById(
+                "employeeActive"
+            ).value === "true";
+
+
+        try {
+
+            let url;
+
+            let method;
+
+            let body;
+
+
+            if (editingEmployeeId) {
+
+                url =
+                    `/api/admin/employees/${encodeURIComponent(
+                        editingEmployeeId
+                    )}`;
+
+                method = "PUT";
+
+
+                body = {
+                    name,
+                    email,
+                    department,
+                    role,
+                    managerId:
+                        managerId || null,
+                    isActive
+                };
+
+
+                if (password) {
+
+                    body.password =
+                        password;
+
+                }
+
+            } else {
+
+                url =
+                    "/api/admin/employees";
+
+                method = "POST";
+
+
+                if (!password) {
+
+                    throw new Error(
+                        "Password is required for a new employee"
+                    );
+
+                }
+
+
+                body = {
+                    employeeId,
+                    name,
+                    email,
+                    password,
+                    department,
+                    role,
+                    managerId:
+                        managerId || null,
+                    isActive
+                };
+
+            }
+
+
+            const response =
+                await fetch(
+                    url,
+                    {
+                        method,
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "Authorization":
+                                `Bearer ${getToken()}`
+                        },
+
+                        body:
+                            JSON.stringify(
+                                body
+                            )
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to save employee"
+                );
+
+            }
+
+
+            showMessage(
+                "employeeMessage",
+                data.message ||
+                    "Employee saved successfully",
+                true
+            );
+
+
+            cancelEdit();
+
+            await loadEmployees();
+
+        } catch (error) {
+
+            console.error(
+                "Save employee error:",
+                error
+            );
+
+            showMessage(
+                "employeeMessage",
+                error.message,
+                false
+            );
+
+        }
+
+    }
+);
+
+
+/* ==========================================================
+   EDIT EMPLOYEE
+========================================================== */
+
+function editEmployee(
+    employeeId
+) {
+
+    const employee =
+        employees.find(
+            item =>
+                item.employeeId ===
+                employeeId
+        );
+
+
+    if (!employee) {
+        return;
+    }
+
+
+    editingEmployeeId =
+        employeeId;
+
+
+    document.getElementById(
+        "employeeFormTitle"
+    ).textContent =
+        "Edit Employee";
+
+
+    document.getElementById(
+        "employeeId"
+    ).value =
+        employee.employeeId;
+
+
+    document.getElementById(
+        "employeeId"
+    ).disabled = true;
+
+
+    document.getElementById(
+        "employeeName"
+    ).value =
+        employee.name || "";
+
+
+    document.getElementById(
+        "employeeEmail"
+    ).value =
+        employee.email || "";
+
+
+    document.getElementById(
+        "employeePassword"
+    ).value = "";
+
+
+    document.getElementById(
+        "employeeDepartment"
+    ).value =
+        employee.department || "";
+
+
+    document.getElementById(
+        "employeeRole"
+    ).value =
+        employee.role || "Employee";
+
+
+    document.getElementById(
+        "employeeManagerId"
+    ).value =
+        employee.managerId || "";
+
+
+    document.getElementById(
+        "employeeActive"
+    ).value =
+        String(
+            employee.isActive
+        );
+
+
+    document.getElementById(
+        "cancelEditBtn"
+    ).style.display =
+        "inline-block";
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* ==========================================================
+   CANCEL EDIT
+========================================================== */
+
+function cancelEdit() {
+
+    editingEmployeeId =
+        null;
+
+
+    document.getElementById(
+        "employeeForm"
+    ).reset();
+
+
+    document.getElementById(
+        "employeeId"
+    ).disabled = false;
+
+
+    document.getElementById(
+        "employeeFormTitle"
+    ).textContent =
+        "Add Employee";
+
+
+    document.getElementById(
+        "cancelEditBtn"
+    ).style.display =
+        "none";
+
+}
+
+
+/* ==========================================================
+   DELETE EMPLOYEE
+========================================================== */
+
+async function deleteEmployee(
+    employeeId
+) {
+
+    const confirmDelete =
+        confirm(
+            `Are you sure you want to delete employee ${employeeId}?`
+        );
+
+
+    if (!confirmDelete) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/admin/employees/${encodeURIComponent(
+                    employeeId
+                )}`,
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${getToken()}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to delete employee"
+            );
+
+        }
+
+
+        showMessage(
+            "employeeMessage",
+            data.message ||
+                "Employee deleted successfully",
+            true
+        );
+
+
+        await loadEmployees();
+
+    } catch (error) {
+
+        console.error(
+            "Delete employee error:",
+            error
+        );
+
+        showMessage(
+            "employeeMessage",
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+/* ==========================================================
+   GENERATE MONTHLY REPORT
+========================================================== */
+
+async function generateMonthlyReport() {
+
+    const month =
+        document.getElementById(
+            "reportMonth"
+        ).value;
+
+    const year =
+        document.getElementById(
+            "reportYear"
+        ).value;
+
+
+    if (!month || !year) {
+
+        showMessage(
+            "monthlyMessage",
+            "Please select month and year.",
+            false
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/reports/monthly?month=${encodeURIComponent(
+                    month
+                )}&year=${encodeURIComponent(
+                    year
+                )}`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${getToken()}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to generate monthly report"
+            );
+
+        }
+
+
+        const summary =
+            data.summary || {};
+
+
+        document.getElementById(
+            "monthlyTotalRequests"
+        ).textContent =
+            summary.totalRequests || 0;
+
+
+        document.getElementById(
+            "monthlyApproved"
+        ).textContent =
+            summary.approved || 0;
+
+
+        document.getElementById(
+            "monthlyRejected"
+        ).textContent =
+            summary.rejected || 0;
+
+
+        document.getElementById(
+            "monthlyPending"
+        ).textContent =
+            summary.pending || 0;
+
+
+        document.getElementById(
+            "monthlyTotalDays"
+        ).textContent =
+            summary.totalLeaveDays || 0;
+
+
+        displayMonthlyReport(
+            data.records || []
+        );
+
+
+        document.getElementById(
+            "monthlyReportArea"
+        ).style.display =
+            "block";
+
+
+        showMessage(
+            "monthlyMessage",
+            "Monthly report generated successfully.",
+            true
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Monthly report error:",
+            error
+        );
+
+
+        document.getElementById(
+            "monthlyReportArea"
+        ).style.display =
+            "none";
+
+
+        showMessage(
+            "monthlyMessage",
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+/* ==========================================================
+   DISPLAY MONTHLY REPORT
+========================================================== */
+
+function displayMonthlyReport(
+    records
+) {
+
+    const tableBody =
+        document.getElementById(
+            "monthlyReportTableBody"
+        );
+
+
+    if (
+        !records ||
+        records.length === 0
+    ) {
+
+        tableBody.innerHTML = `
+            <tr>
+                <td
+                    colspan="8"
+                    class="empty-message">
+
+                    No leave records found
+                    for the selected month.
+
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    tableBody.innerHTML =
+        records.map(
+            record => `
+
+                <tr>
+
+                    <td>
+                        ${escapeHtml(
+                            record.employeeId
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            record.employeeName
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            record.leaveType
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatDate(
+                            record.fromDate
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatDate(
+                            record.toDate
+                        )}
+                    </td>
+
+                    <td>
+                        ${record.leaveDays || 0}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            record.reason
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            record.status
+                        )}
+                    </td>
+
+                </tr>
+
+            `
+        ).join("");
+
+}
+
+
+/* ==========================================================
+   DOWNLOAD MONTHLY PDF
+========================================================== */
+
+async function downloadMonthlyPDF() {
+
+    const month =
+        document.getElementById(
+            "reportMonth"
+        ).value;
+
+    const year =
+        document.getElementById(
+            "reportYear"
+        ).value;
+
+
+    if (!month || !year) {
+
+        alert(
+            "Please select month and year first."
+        );
+
+        return;
+
+    }
+
+
+    await downloadFile(
+        `/api/reports/monthly/pdf?month=${encodeURIComponent(
+            month
+        )}&year=${encodeURIComponent(
+            year
+        )}`,
+        `monthly-report-${month}-${year}.pdf`
+    );
+
+}
+
+
+/* ==========================================================
+   DOWNLOAD MONTHLY EXCEL
+========================================================== */
+
+async function downloadMonthlyExcel() {
+
+    const month =
+        document.getElementById(
+            "reportMonth"
+        ).value;
+
+    const year =
+        document.getElementById(
+            "reportYear"
+        ).value;
+
+
+    if (!month || !year) {
+
+        alert(
+            "Please select month and year first."
+        );
+
+        return;
+
+    }
+
+
+    await downloadFile(
+        `/api/reports/monthly/excel?month=${encodeURIComponent(
+            month
+        )}&year=${encodeURIComponent(
+            year
+        )}`,
+        `monthly-report-${month}-${year}.xlsx`
+    );
+
+}
+
+
+/* ==========================================================
+   GENERATE DEPARTMENT REPORT
+========================================================== */
+
+async function generateDepartmentReport() {
+
+    const department =
+        document.getElementById(
+            "reportDepartment"
+        ).value;
+
+
+    if (!department) {
+
+        showMessage(
+            "departmentMessage",
+            "Please select a department.",
+            false
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/reports/department?department=${encodeURIComponent(
+                    department
+                )}`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${getToken()}`
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to generate department report"
+            );
+
+        }
+
+
+        const summary =
+            data.summary || {};
+
+
+        document.getElementById(
+            "departmentReportTitle"
+        ).textContent =
+            `Department Leave Report - ${department}`;
+
+
+        document.getElementById(
+            "departmentTotalEmployees"
+        ).textContent =
+            summary.totalEmployees || 0;
+
+
+        document.getElementById(
+            "departmentTotalRequests"
+        ).textContent =
+            summary.totalRequests || 0;
+
+
+        document.getElementById(
+            "departmentApproved"
+        ).textContent =
+            summary.approved || 0;
+
+
+        document.getElementById(
+            "departmentRejected"
+        ).textContent =
+            summary.rejected || 0;
+
+
+        document.getElementById(
+            "departmentPending"
+        ).textContent =
+            summary.pending || 0;
+
+
+        document.getElementById(
+            "departmentTotalDays"
+        ).textContent =
+            summary.totalLeaveDays || 0;
+
+
+        displayDepartmentReport(
+            data.records || []
+        );
+
+
+        document.getElementById(
+            "departmentReportArea"
+        ).style.display =
+            "block";
+
+
+        showMessage(
+            "departmentMessage",
+            "Department report generated successfully.",
+            true
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Department report error:",
+            error
+        );
+
+
+        document.getElementById(
+            "departmentReportArea"
+        ).style.display =
+            "none";
+
+
+        showMessage(
+            "departmentMessage",
+            error.message,
+            false
+        );
+
+    }
+
+}
+
+
+/* ==========================================================
+   DISPLAY DEPARTMENT REPORT
+========================================================== */
+
+function displayDepartmentReport(
+    records
+) {
+
+    const tableBody =
+        document.getElementById(
+            "departmentReportTableBody"
+        );
+
+
+    if (
+        !records ||
+        records.length === 0
+    ) {
+
+        tableBody.innerHTML = `
+            <tr>
+                <td
+                    colspan="8"
+                    class="empty-message">
+
+                    No leave records found
+                    for this department.
+
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    tableBody.innerHTML =
+        records.map(
+            record => `
+
+                <tr>
+
+                    <td>
+                        ${escapeHtml(
+                            record.employeeId
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            record.employeeName
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            record.leaveType
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatDate(
+                            record.fromDate
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatDate(
+                            record.toDate
+                        )}
+                    </td>
+
+                    <td>
+                        ${record.leaveDays || 0}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            record.reason
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            record.status
+                        )}
+                    </td>
+
+                </tr>
+
+            `
+        ).join("");
+
+}
+
+
+/* ==========================================================
+   DOWNLOAD DEPARTMENT PDF
+========================================================== */
+
+async function downloadDepartmentPDF() {
+
+    const department =
+        document.getElementById(
+            "reportDepartment"
+        ).value;
+
+
+    if (!department) {
+
+        alert(
+            "Please select a department first."
+        );
+
+        return;
+
+    }
+
+
+    await downloadFile(
+        `/api/reports/department/pdf?department=${encodeURIComponent(
+            department
+        )}`,
+        `${department}-leave-report.pdf`
+    );
+
+}
+
+
+/* ==========================================================
+   DOWNLOAD DEPARTMENT EXCEL
+========================================================== */
+
+async function downloadDepartmentExcel() {
+
+    const department =
+        document.getElementById(
+            "reportDepartment"
+        ).value;
+
+
+    if (!department) {
+
+        alert(
+            "Please select a department first."
+        );
+
+        return;
+
+    }
+
+
+    await downloadFile(
+        `/api/reports/department/excel?department=${encodeURIComponent(
+            department
+        )}`,
+        `${department}-leave-report.xlsx`
+    );
+
+}
+
+
+/* ==========================================================
+   DOWNLOAD FILE WITH JWT
+========================================================== */
+
+async function downloadFile(
+    url,
+    fileName
+) {
+
+    try {
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${getToken()}`
+                    }
+                }
+            );
+
+
+        if (!response.ok) {
+
+            let errorMessage =
+                "Unable to download report.";
+
+            try {
+
+                const data =
+                    await response.json();
+
+                errorMessage =
+                    data.message ||
+                    errorMessage;
+
+            } catch (error) {
+
+                // Ignore JSON parsing error.
+
+            }
+
+            throw new Error(
+                errorMessage
+            );
+
+        }
+
+
+        const blob =
+            await response.blob();
+
+
+        const downloadUrl =
+            window.URL.createObjectURL(
+                blob
+            );
+
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+        link.href =
+            downloadUrl;
+
+        link.download =
+            fileName;
+
+        document.body.appendChild(
+            link
+        );
+
+        link.click();
+
+        link.remove();
+
+
+        window.URL.revokeObjectURL(
+            downloadUrl
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Download error:",
+            error
+        );
+
+        alert(
+            error.message ||
+            "Unable to download report."
+        );
+
+    }
+
+}
+
+
+/* ==========================================================
+   LOGOUT
+========================================================== */
+
+function logout() {
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    localStorage.removeItem(
+        "currentUser"
+    );
+
+    localStorage.removeItem(
+        "loggedIn"
+    );
+
+    localStorage.removeItem(
+        "userRole"
+    );
+
+    localStorage.removeItem(
+        "loginId"
+    );
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* ==========================================================
+   MESSAGE
+========================================================== */
+
+function showMessage(
+    elementId,
+    message,
+    success
+) {
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+
+    element.textContent =
+        message;
+
+
+    element.style.display =
+        "block";
+
+
+    element.className =
+        success
+            ? "message success-message"
+            : "message error-message";
+
+
+    setTimeout(
+        function () {
+
+            element.style.display =
+                "none";
+
+        },
+        4000
+    );
+
+}
+
+
+/* ==========================================================
+   FORMAT DATE
+========================================================== */
+
+function formatDate(
+    value
+) {
+
+    if (!value) {
+        return "-";
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (Number.isNaN(
+        date.getTime()
+    )) {
+
+        return "-";
+
+    }
+
+
+    return date.toLocaleDateString();
+
+}
+
+
+/* ==========================================================
+   ESCAPE HTML
+========================================================== */
+
+function escapeHtml(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* ==========================================================
+   ESCAPE JAVASCRIPT
+========================================================== */
+
+function escapeJs(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+        .replace(
+            /'/g,
+            "\\'"
+        )
+        .replace(
+            /"/g,
+            '\\"'
+        );
+
+}
+
+</script>
+
+</body>
+
+</html>
