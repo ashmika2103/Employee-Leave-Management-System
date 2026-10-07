@@ -116,3 +116,6 @@ ELMS
 ├── package-lock.json
 ├── README.md
 └── .gitignore
+## Continuous Integration
+
+Jenkins CI pipeline is configured to automatically build and test the Employee Leave Management System.
